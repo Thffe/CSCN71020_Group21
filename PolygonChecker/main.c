@@ -54,11 +54,24 @@ int printShapeMenu() {
 	return shapeChoice;
 }
 
+//WIP
 int* getTriangleSides(int* triangleSides) {
-	printf_s("Enter the three sides of the triangle: ");
-	for (int i = 0; i < 3; i++)
-	{
-		scanf_s("%d", &triangleSides[i]);
+	int sides = 0;
+	printf_s("Enter the three sides of the triangle:\n");
+	int arg, in;
+	char c[10];
+	while (sides < 3){
+		printf_s("Side %d:\n", sides+1);
+		arg = scanf_s("%d", &in);
+		
+		if (arg && in > 0) {
+			triangleSides[sides] = in;
+			sides++;
+		}
+		else {
+			printf_s("bad input\n");
+			scanf_s("%s", c, 100);//without this line, the program breaks. IDK why
+		}
 	}
 	return triangleSides;
 }
