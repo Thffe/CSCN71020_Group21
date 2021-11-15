@@ -5,38 +5,38 @@
 
 #include "rectSolver.h"
 
-char* analyzeRect(int points[8]) {
+char* analyzeRect(double* points) {
 
-	int left1[2] = { points[0], points[1] };
-	int left2[2];
+	double left1[2] = {*(points + 0), *(points + 1)};
+	double left2[2] = { 0, 0 };
 
 	//doesnt acount for all cases
-	if (points[2] >= left1[0]) {
-		left1[0] = points[2];
-		left1[1] = points[3];
+	if (*(points + 2) >= left1[0]) {
+		left1[0] = *(points + 2);
+		left1[1] = *(points + 3);
 
-		left2[0] = points[0];
-		left2[1] = points[1];
+		left2[0] = *(points + 0);
+		left2[1] = *(points + 1);
 	}
 
-	if (points[4] > left1[0]) {
+	if (*(points + 4) > left1[0]) {
 		left2[0] = left1[0];
 		left2[1] = left1[1];
 
-		left1[0] = points[4];
-		left1[1] = points[5];
+		left1[0] = *(points + 4);
+		left1[1] = *(points + 5);
 	}
 
-	if (points[6] > left1[0]) {
+	if (*(points + 6) > left1[0]) {
 		left2[0] = left1[0];
 		left2[1] = left1[1];
 
-		left1[0] = points[6];
-		left1[1] = points[7];
+		left1[0] = *(points + 6);
+		left1[1] = *(points + 7);
 	}
 
-	int topleft[2];
-	int botleft[2];
+	double topleft[2];
+	double botleft[2];
 
 	if (left1[1] > left2[1]) {
 		topleft[0] = left1[0];
@@ -53,23 +53,24 @@ char* analyzeRect(int points[8]) {
 		botleft[1] = left1[1];
 	}
 
-	int right[4];
-	int topright[2];
-	int botright[2];
-
-	for (int i = 0; i < 4; i++) {
-		if (points[i * 2] != topleft[0] && points[i * 2 + 1] != topleft[1] &&
-			points[i * 2] != botleft[0] && points[i * 2 + 1] != botleft[1]) {
-			right[0] = points[i * 2];
-			right[1] = points[i * 2 + 1];
+	double right[4];
+	double topright[2];
+	double botright[2];
+	int i;
+	for (i = 0; i < 4; i++) {
+		int i2 = i * 2;
+		int i2_1 = i * 2 + 1;
+		if (*(points + i2) != topleft[0] && *(points + i2_1) != topleft[1] && *(points + i2) != botleft[0] && *(points + i2_1) != botleft[1]) {
+			right[0] = *(points + i2);
+			right[1] = *(points + i2_1);
 		}
 	}
 	for (int i = 0; i < 4; i++) {
-		if (points[i * 2] != topleft[0] && points[i * 2 + 1] != topleft[1] &&
-			points[i * 2] != botleft[0] && points[i * 2 + 1] != botleft[1] &&
-			points[i * 2] != right[0] && points[i * 2 + 1] != right[1]) {
-			right[2] = points[i * 2];
-			right[3] = points[i * 2 + 1];
+		int i2 = i * 2;
+		int i2_1 = i * 2 + 1;
+		if (*(points + i2) != topleft[0] && *(points + i2_1) != topleft[1] && *(points + i2) != botleft[0] && *(points + i2_1) != botleft[1] && *(points + i2) != right[0] && *(points + i2_1) != right[1]) {
+			right[2] = *(points + i2);
+			right[3] = *(points + i2_1);
 		}
 	}
 	if (right[1] > right[3]) {
@@ -103,18 +104,14 @@ char* analyzeRect(int points[8]) {
 	bool ang4 = ifRightAngles(slope2, slope4);
 
 	if (side1 == side2 && side3 == side4 && ang1 && ang2 && ang3 && ang4) {
-		return "points DO form a rectangle.";
+		return "Points DO form a rectangle.";
 	}
 	else {
-		return "points DO NOT form a rectangle.";
+		return "Points DO NOT form a rectangle.";
 	}
 }
-/*
-double calculateDist(int x1, int y1, int x2, int y2) {
-	return sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2));
-}*/
 
-double calculateSlope(int x1, int y1, int x2, int y2) {
+double calculateSlope(double x1, double y1, double x2, double y2) {
 	return (x2 - x1) / (y2 - y1);
 	//ISSUE: will divide by zero if y2 == y1
 }

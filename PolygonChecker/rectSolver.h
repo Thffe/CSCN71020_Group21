@@ -1,6 +1,4 @@
 #pragma once
-char* analyzeRect(int[8]);
-
-double calculateDist(int, int, int, int);
-double calculateSlope(int, int, int, int);
-bool ifRightAngles(double, double);
+char* analyzeRect(double* points);
+double calculateSlope(double x1, double y1, double x2, double y2);
+bool ifRightAngles(double s1, double s2);

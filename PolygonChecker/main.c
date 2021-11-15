@@ -24,18 +24,18 @@ double radToDegree(double rad);
 void printAngles(double* angle);
 
 void printWelcome();
-int printShapeMenu();
+char printShapeMenu();
 
 int main() {
 	while(1) {
 		printWelcome();
 
-		int shapeChoice = printShapeMenu();
+		char shapeChoice = printShapeMenu();
 		double* triangleSidesPtr = (double*) calloc(NUM_OF_TRIANGLE_SIDES, sizeof(double));
 		double* rectanglePointsPtr = (double*) calloc(NUM_OF_RECTANGLE_SIDES, sizeof(double));
 
 		switch (shapeChoice) {
-			case 1:
+			case '1':
 				printf_s("Triangle selected.\n");
 
 				getTriangleSides(triangleSidesPtr);
@@ -51,15 +51,17 @@ int main() {
 					printf_s("%s\n", result);
 				}
 				break;
-			case 2:
+			case '2':
 				printf_s("Rectangle selected.\n");
 				getRectPoints(rectanglePointsPtr);
 				printf("Rectangle perimeter = %f", calculatePerimeter(rectanglePointsPtr));
 			    break;
-			case 0: return 0;
+			case '0': 		
+				free(triangleSidesPtr);
+				free(rectanglePointsPtr);
+				exit(0);
 			default: printf_s("Invalid value entered.\n"); break;
 		}
-		free(triangleSidesPtr);
 	}
 	return 0;
 }
@@ -109,7 +111,7 @@ double calculateDist(double x1, double y1, double x2, double y2) {
 	double difY = y1 - y2;
 	double pow1 = pow(difX, 2);
 	double pow2 = pow(difY, 2);
-	double sum = pow1 = pow2;
+	double sum = pow1 + pow2;
 	double result = sqrt(sum);
 	printf("Side length = %f\n", result);
 	return result;
@@ -160,8 +162,9 @@ double radToDegree(double rad) {
 
 void printAngles(double* angle) {
 	int i;
+	printf("\n");
 	for (i = 0; i < NUM_OF_TRIANGLE_SIDES; i++) {
-		printf("Angle #%d = %f\n", i, *(angle + i));
+		printf("Angle #%d = %f\n", i + 1, *(angle + i));
 	}
 }
 
@@ -175,15 +178,15 @@ void printAngles(double* angle) {
 	printf_s(" **********************\n");
 }
 
-int printShapeMenu() {
+char printShapeMenu() {
 	printf_s("1. Triangle\n");
 	printf_s("2. Rectangle\n");
 	printf_s("0. Exit\n");
 
-	int shapeChoice;
+	char shapeChoice;
 
 	printf_s("Enter number: ");
-	scanf_s("%1o", &shapeChoice);
+	scanf_s(" %c", &shapeChoice, 1);
 
 	return shapeChoice;
 }

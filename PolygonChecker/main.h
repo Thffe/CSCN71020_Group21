@@ -10,4 +10,4 @@ double radToDegree(double rad);
 void printAngles(double* angle);
 
 void printWelcome();
-int printShapeMenu();
+char printShapeMenu();
