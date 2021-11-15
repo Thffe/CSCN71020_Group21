@@ -1,19 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 
 #include "rectSolver.h"
 
 char* analyzeRect(int points[8]) {
 
-	int p1[2] = { points[0], points[1] };
-	int p2[2] = { points[2], points[3] };
-	int p3[2] = { points[4], points[5] };
-	int p4[2] = { points[6], points[7] };
-
 	int left1[2] = { points[0], points[1] };
 	int left2[2];
 
+	//doesnt acount for all cases
 	if (points[2] >= left1[0]) {
 		left1[0] = points[2];
 		left1[1] = points[3];
@@ -112,16 +109,18 @@ char* analyzeRect(int points[8]) {
 		return "points DO NOT form a rectangle.";
 	}
 }
-
+/*
 double calculateDist(int x1, int y1, int x2, int y2) {
 	return sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2));
-}
+}*/
 
 double calculateSlope(int x1, int y1, int x2, int y2) {
 	return (x2 - x1) / (y2 - y1);
+	//ISSUE: will divide by zero if y2 == y1
 }
 
 bool ifRightAngles(double s1, double s2) {
+	// -1 * (1/s2) may produce rounding errors
 	if (s1 == -1 * (1 / s2)) {
 		return true;
 	}
