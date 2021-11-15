@@ -26,7 +26,7 @@ int main() {
 			break;
 		case 2:
 			printf_s("Rectangle selected.\n");
-			int rect[8];
+			int rect[8] = {0,0,0,0,0,0,0,0};
 			int* rectPtr = getRectPoints(rect);
 			break;
 		case 0:
@@ -40,7 +40,7 @@ int main() {
 	return 0;
 }
 
-int* getRectPoints(int points[]) {
+int* getRectPoints(int* points) {
 	int gotten = 0;
 	int arg, inX, inY;
 	char c[10];
@@ -50,7 +50,7 @@ int* getRectPoints(int points[]) {
 		arg = scanf_s("%d %d", &inX, &inY);
 
 		if (arg == 2) {
-			points[gotten*2] = inX;
+			points[gotten * 2] = inX;
 			points[gotten * 2 + 1] = inY;
 			gotten++;
 		}
