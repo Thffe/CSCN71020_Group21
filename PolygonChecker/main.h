@@ -1,6 +1,7 @@
 #pragma once
-void printWelcome();
-int printShapeMenu();
+double* getRectPoints(double* points);
+double calculateDist(double x1, double y1, double x2, double y2);
+double calculatePerimeter(double* points);
 
 void getTriangleSides(double* triangleSides);
 double scanCheckSide(int i);
@@ -8,6 +9,5 @@ double* calculateInsideAngles(double* sides);
 double radToDegree(double rad);
 void printAngles(double* angle);
 
-int* getRectPoints(int*);
-void calculatePerimeter(int[]);
-double calculateDist(int, int, int, int);
+void printWelcome();
+int printShapeMenu();

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include <string.h>
 
 #include "main.h"
 #include "triangleSolver.h"
@@ -12,13 +13,18 @@
 #define SUM_OF_ANGLES_IN_TRIANGLE 180
 #define PI 3.14159265359
 
-void printWelcome();
-int printShapeMenu();
+double* getRectPoints(double* points);
+double calculateDist(double x1, double y1, double x2, double y2);
+double calculatePerimeter(double* points);
+
 void getTriangleSides(double* triangleSides);
 double scanCheckSide(int i);
 double* calculateInsideAngles(double* sides);
 double radToDegree(double rad);
 void printAngles(double* angle);
+
+void printWelcome();
+int printShapeMenu();
 
 int main() {
 	while(1) {
@@ -26,6 +32,7 @@ int main() {
 
 		int shapeChoice = printShapeMenu();
 		double* triangleSidesPtr = (double*) calloc(NUM_OF_TRIANGLE_SIDES, sizeof(double));
+		double* rectanglePointsPtr = (double*) calloc(NUM_OF_RECTANGLE_SIDES, sizeof(double));
 
 		switch (shapeChoice) {
 			case 1:
@@ -44,11 +51,11 @@ int main() {
 					printf_s("%s\n", result);
 				}
 				break;
-       case 2:
-        printf_s("Rectangle selected.\n");
-        int rect[8] = {0,0,0,0,0,0,0,0};
-        int* rectPtr = getRectPoints(rect);
-        break;
+			case 2:
+				printf_s("Rectangle selected.\n");
+				getRectPoints(rectanglePointsPtr);
+				printf("Rectangle perimeter = %f", calculatePerimeter(rectanglePointsPtr));
+			    break;
 			case 0: return 0;
 			default: printf_s("Invalid value entered.\n"); break;
 		}
@@ -57,29 +64,26 @@ int main() {
 	return 0;
 }
 
-int* getRectPoints(int* points) {
-	int gotten = 0;
-	int arg, inX, inY;
-	char c[10];
-	printf_s("Enter 4 points of a rectangle:  (x y)\n");
-	while (gotten < 4) {
-		printf_s("Point %d:\n", gotten + 1);
-		arg = scanf_s("%d %d", &inX, &inY);
+//RECTANGLE part
 
-		if (arg == 2) {
-			points[gotten * 2] = inX;
-			points[gotten * 2 + 1] = inY;
-			gotten++;
-		}
-		else {
-			printf_s("bad input\n");
-			scanf_s("%s", c, 100);//without this line, the program breaks. IDK why
-		}
+double* getRectPoints(double* points) {
+	int i, counter = 0;
+	double pointX, pointY;
+	printf_s("Enter 4 points of a rectangle (coordinates format x, y).\n");
+	
+	for (i = 0; i < NUM_OF_RECTANGLE_SIDES; i++) {
+		printf("Input coordinates for point #%d: \n", i + 1);
+		scanf_s("%lf", &pointX);
+		scanf_s("%lf", &pointY);
+		*(points + counter) = pointX;
+		counter++;
+		*(points + counter) = pointY;
+		counter++;
 	}
 	return points;
 }
 
-void calculatePerimeter(int rect[]) {
+double calculatePerimeter(double* points) {
 	double perimeter = 0;
 	/*
 	* for rect[]
@@ -88,23 +92,30 @@ void calculatePerimeter(int rect[]) {
 	x3 = [4], y3 = [5]
 	x4 = [6], y4 = [7]
 	*/
-							//	  x1	  y1		x2		y2
-	perimeter += calculateDist(rect[0], rect[1], rect[2], rect[3]);
-							//	  x1	  y1		x4		y4
-	perimeter += calculateDist(rect[0], rect[1], rect[6], rect[7]);
-							//	  x2	  y2		x3		y3
-	perimeter += calculateDist(rect[2], rect[3], rect[4], rect[5]);
-							//	  x3	  y3		x4		y4
-	perimeter += calculateDist(rect[4], rect[5], rect[6], rect[7]);
+							//	  x1			y1				x2			y2
+	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 2), *(points + 3));
+							//	  x1			y1		x4		y4
+	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 6), *(points + 7));
+							//	  x2			y2				x3			y3
+	perimeter += calculateDist(*(points + 2), *(points + 3), *(points + 4), *(points + 5));
+							//	  x3			 y3				x4			y4
+	perimeter += calculateDist(*(points + 4), *(points + 5), *(points + 6), *(points + 7));
 
-	printf_s("The perimeter of your shape is %f units", perimeter);
+	return perimeter;
 }
 
-double calculateDist(int x1, int y1, int x2, int y2) {
-	return sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2));
+double calculateDist(double x1, double y1, double x2, double y2) {
+	double difX = x1 - x2;
+	double difY = y1 - y2;
+	double pow1 = pow(difX, 2);
+	double pow2 = pow(difY, 2);
+	double sum = pow1 = pow2;
+	double result = sqrt(sum);
+	printf("Side length = %f\n", result);
+	return result;
 }
 
-
+//TRIANGLE PART:
 
 void getTriangleSides(double* triangleSides) {
 	int i;
@@ -153,6 +164,8 @@ void printAngles(double* angle) {
 		printf("Angle #%d = %f\n", i, *(angle + i));
 	}
 }
+
+//MENU part
 
   void printWelcome() {
 	printf_s("\n");
