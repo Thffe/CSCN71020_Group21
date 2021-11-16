@@ -54,7 +54,7 @@ int main() {
 			case '2':
 				printf_s("Rectangle selected.\n");
 				getRectPoints(rectanglePointsPtr);
-				printf("Rectangle perimeter = %f", calculatePerimeter(rectanglePointsPtr));
+				printf("Rectangle perimeter = %f\n", calculatePerimeter(rectanglePointsPtr));
 			    break;
 			case '0': 		
 				free(triangleSidesPtr);

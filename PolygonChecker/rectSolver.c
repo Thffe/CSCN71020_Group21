@@ -8,31 +8,54 @@
 char* analyzeRect(double* points) {
 
 	double left1[2] = {*(points + 0), *(points + 1)};
-	double left2[2] = { 0, 0 };
+	double left2[2];
+
+	/*
+	* for points[]
+	x1 = [0], y1 = [1]
+	x2 = [2], y2 = [3]
+	x3 = [4], y3 = [5]
+	x4 = [6], y4 = [7]
+	*/
 
 	//doesnt acount for all cases
-	if (*(points + 2) >= left1[0]) {
+	if (*(points + 2) <= left1[0]) {
 		left1[0] = *(points + 2);
 		left1[1] = *(points + 3);
 
 		left2[0] = *(points + 0);
 		left2[1] = *(points + 1);
 	}
+	else {
+		left2[0] = points[2];
+		left2[1] = points[3];
+	}
 
-	if (*(points + 4) > left1[0]) {
+	if (*(points + 4) < left1[0]) 
+	{
 		left2[0] = left1[0];
 		left2[1] = left1[1];
 
 		left1[0] = *(points + 4);
 		left1[1] = *(points + 5);
 	}
+	else if (*(points + 4) < left2[0]) 
+	{
+		left2[0] = points[4];
+		left2[1] = points[5];
+	}
 
-	if (*(points + 6) > left1[0]) {
+	if (*(points + 6) < left1[0]) {
 		left2[0] = left1[0];
 		left2[1] = left1[1];
 
 		left1[0] = *(points + 6);
 		left1[1] = *(points + 7);
+	}
+	else if (*(points + 6) < left1[0]) 
+		{
+		left2[0] = points[6];
+		left2[1] = points[7];
 	}
 
 	double topleft[2];
