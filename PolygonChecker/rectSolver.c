@@ -7,7 +7,7 @@
 
 char* analyzeRect(double* points) {
 
-	double left1[2] = {*(points + 0), *(points + 1)};
+	/*double left1[2] = {*(points + 0), *(points + 1)};
 	double left2[2];
 
 	/*
@@ -19,7 +19,7 @@ char* analyzeRect(double* points) {
 	*/
 
 	//doesnt acount for all cases
-	if (*(points + 2) <= left1[0]) {
+	/*if (*(points + 2) <= left1[0]) {
 		left1[0] = *(points + 2);
 		left1[1] = *(points + 3);
 
@@ -125,12 +125,32 @@ char* analyzeRect(double* points) {
 	bool ang2 = ifRightAngles(slope1, slope4);
 	bool ang3 = ifRightAngles(slope2, slope3);
 	bool ang4 = ifRightAngles(slope2, slope4);
-
+	
 	if (side1 == side2 && side3 == side4 && ang1 && ang2 && ang3 && ang4) {
 		return "Points DO form a rectangle.";
 	}
 	else {
 		return "Points DO NOT form a rectangle.";
+	}
+	*/
+	double x1 = *(points + 0);
+	double y1 = *(points + 1);
+	double x2 = *(points + 2);
+	double y2 = *(points + 3);
+	double x3 = *(points + 4);
+	double y3 = *(points + 5);
+	double x4 = *(points + 6);
+	double y4 = *(points + 7);
+	if ((x1 != x2 || y1 != y2) && (x2 != x3 || y2 != y3) && (x3 != x4 || y3 != y4) && (x4 != x1 || y4 != y1)) {
+		if ((((x3 - x2) * (x1 - x2) + (y3 - y2) * (y1 - y2)) == 0) && (((x3 - x4) * (x1 - x4) + (y3 - y4) * (y1 - y4) == 0))) {
+			return "Points FORM a rectangle";
+		}
+		else {
+			return "Points DO NOT form a rectangle";
+		}
+	}
+	else {
+		return "Points DO NOT form a rectangle";
 	}
 }
 

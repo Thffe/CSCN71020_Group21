@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -6,6 +7,7 @@
 
 #include "main.h"
 #include "triangleSolver.h"
+#include "rectSolver.h"
 
 #define STRAIGHT_ANGLE 90
 #define NUM_OF_TRIANGLE_SIDES 3
@@ -14,7 +16,6 @@
 #define PI 3.14159265359
 
 double* getRectPoints(double* points);
-double calculateDist(double x1, double y1, double x2, double y2);
 double calculatePerimeter(double* points);
 
 void getTriangleSides(double* triangleSides);
@@ -29,14 +30,12 @@ char printShapeMenu();
 int main() {
 	while(1) {
 		printWelcome();
-
 		char shapeChoice = printShapeMenu();
-		double* triangleSidesPtr = (double*) calloc(NUM_OF_TRIANGLE_SIDES, sizeof(double));
-		double* rectanglePointsPtr = (double*) calloc(NUM_OF_RECTANGLE_SIDES, sizeof(double));
 
 		switch (shapeChoice) {
 			case '1':
 				printf_s("Triangle selected.\n");
+				double* triangleSidesPtr = (double*)calloc(NUM_OF_TRIANGLE_SIDES, sizeof(double));
 
 				getTriangleSides(triangleSidesPtr);
 				char* result = analyzeTriangle(triangleSidesPtr);
@@ -50,15 +49,27 @@ int main() {
 					printAngles(angles);
 					printf_s("%s\n", result);
 				}
+
+				free(triangleSidesPtr);
 				break;
 			case '2':
 				printf_s("Rectangle selected.\n");
+				double* rectanglePointsPtr = (double*)calloc(NUM_OF_RECTANGLE_SIDES, sizeof(double));
+
 				getRectPoints(rectanglePointsPtr);
+				char* res = (analyzeRect(rectanglePointsPtr));
+
+				if (strcmp(res, "Points DO NOT form a rectangle") == 0) {
+					printf("%s\n", res);
+					break;
+				}
+
 				printf("Rectangle perimeter = %f\n", calculatePerimeter(rectanglePointsPtr));
+				printf("%s\n", res);
+				rectanglePointsPtr = NULL;
+				free(rectanglePointsPtr);
 			    break;
 			case '0': 		
-				free(triangleSidesPtr);
-				free(rectanglePointsPtr);
 				exit(0);
 			default: printf_s("Invalid value entered.\n"); break;
 		}
