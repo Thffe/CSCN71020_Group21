@@ -16,6 +16,15 @@ namespace RectanlgeTests
 
 		TEST_METHOD(TestMethod1)
 		{
+			//double points[8] = {};
+			bool a = ifRightAngles(0, 0, true);
+			Assert::AreEqual(a, true);
+		}
+		TEST_METHOD(test2) {
+			double points[8] = { 2,2,-2,2,-2,-2,2,-2 };
+			char* a = analyzeRect(points);
+			int b = strncmp(a, "Points DO form a rectangle.", 60);
+			Assert::AreEqual(b, 0);
 		}
 	};
 }
