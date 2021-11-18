@@ -7,7 +7,7 @@
 
 char* analyzeRect(double* points) {
 
-	/*double left1[2] = {*(points + 0), *(points + 1)};
+	double left1[2] = {*(points + 0), *(points + 1)};
 	double left2[2];
 
 	/*
@@ -16,10 +16,10 @@ char* analyzeRect(double* points) {
 	x2 = [2], y2 = [3]
 	x3 = [4], y3 = [5]
 	x4 = [6], y4 = [7]
-	*/
+	
 
 	//doesnt acount for all cases
-	/*if (*(points + 2) <= left1[0]) {
+	if (*(points + 2) <= left1[0]) {
 		left1[0] = *(points + 2);
 		left1[1] = *(points + 3);
 
@@ -27,8 +27,8 @@ char* analyzeRect(double* points) {
 		left2[1] = *(points + 1);
 	}
 	else {
-		left2[0] = points[2];
-		left2[1] = points[3];
+		left2[0] = *(points + 2);
+		left2[1] = *(points + 3);
 	}
 
 	if (*(points + 4) < left1[0]) 
@@ -41,8 +41,8 @@ char* analyzeRect(double* points) {
 	}
 	else if (*(points + 4) < left2[0]) 
 	{
-		left2[0] = points[4];
-		left2[1] = points[5];
+		left2[0] = *(points + 4);
+		left2[1] = *(points + 5);
 	}
 
 	if (*(points + 6) < left1[0]) {
@@ -54,8 +54,8 @@ char* analyzeRect(double* points) {
 	}
 	else if (*(points + 6) < left1[0]) 
 		{
-		left2[0] = points[6];
-		left2[1] = points[7];
+		left2[0] = *(points + 6);
+		left2[1] = *(points + 7);
 	}
 
 	double topleft[2];
@@ -131,8 +131,8 @@ char* analyzeRect(double* points) {
 	}
 	else {
 		return "Points DO NOT form a rectangle.";
-	}
-	*/
+	}*/
+	
 	double x1 = *(points + 0);
 	double y1 = *(points + 1);
 	double x2 = *(points + 2);
