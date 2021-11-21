@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
 #include <string.h>
 
 #include "main.h"
@@ -10,10 +9,7 @@
 #include "rectSolver.h"
 
 #define STRAIGHT_ANGLE 90
-#define NUM_OF_TRIANGLE_SIDES 3
 #define NUM_OF_RECTANGLE_SIDES 4
-#define SUM_OF_ANGLES_IN_TRIANGLE 180
-#define PI 3.14159265359
 
 //Rectangle calculations block
 double* getRectPoints(double* points);
@@ -175,25 +171,6 @@ double scanCheckSide(int i) {
 	return side;
 }
 
-//This function is neeeded to calculate the inside angles of a triangle
-double* calculateInsideAngles(double* sides) {
-	double* resultPTR = (double*)calloc(NUM_OF_TRIANGLE_SIDES, sizeof(double));
-
-	double pow0 = pow(*(sides + 0), 2);
-	double pow1 = pow(*(sides + 1), 2);
-	double pow2 = pow(*(sides + 2), 2);
-	*(resultPTR + 0) = radToDegree(acos((pow1 + pow2 - pow0) / (2 * *(sides + 1) * *(sides + 2))));
-	*(resultPTR + 1) = radToDegree(acos((pow0 + pow1 - pow2) / (2 * *(sides + 0) * *(sides + 1))));
-	*(resultPTR + 2) = SUM_OF_ANGLES_IN_TRIANGLE - *(resultPTR + 0) - *(resultPTR + 1);
-	return resultPTR;
-}
-//This function transforms radians to degrees
-double radToDegree(double rad) {
-	double degree;
-	degree = (rad * 180) / PI; //Here it uses the formula, which is used to count degrees out of radians. PI - pi number, equals to 3.14
-	return degree;
-}
-
 //This function is used to print angles of the triangle
 void printAngles(double* angle) {
 	int i;
@@ -202,6 +179,7 @@ void printAngles(double* angle) {
 		printf("Angle #%d = %f\n", i + 1, *(angle + i));
 	}
 }
+
 
 //MENU part
 

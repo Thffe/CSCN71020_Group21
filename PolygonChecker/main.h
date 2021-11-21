@@ -6,8 +6,6 @@ double calculateArea(double* rectanglePTS);
 
 void getTriangleSides(double* triangleSides);
 double scanCheckSide(int i);
-double* calculateInsideAngles(double* sides);
-double radToDegree(double rad);
 void printAngles(double* angle);
 
 void printWelcome();
