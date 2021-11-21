@@ -92,15 +92,17 @@ char* analyzeRect(double* points) {
 	int i = 0;
 	for (i = 0; i < 4; i++) {
 		if (i * 2 != l1in && i * 2 != l2in) {
-			right[0] = *(points + i * 2);
-			right[1] = *(points + i * 2 + 1);
+			int isq = i * 2;
+			right[0] = *(points + isq);
+			right[1] = *(points + isq + 1);
 			r1in = i * 2;
 		}
 	}
 	for (i = 0; i < 4; i++) {
 		if (i * 2 != l1in && i * 2 != l2in && i * 2 != r1in) {
-			right[2] = *(points + i * 2);
-			right[3] = *(points + i * 2 + 1);
+			int isq = i * 2;
+			right[2] = *(points + isq);
+			right[3] = *(points + isq + 1);
 		}
 	}
 

@@ -24,9 +24,6 @@
     <ClCompile Include="rectSolver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Triangle Test Cases.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="triangleSolver.h">

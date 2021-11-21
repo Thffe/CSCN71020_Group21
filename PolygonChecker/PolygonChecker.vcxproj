@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="rectSolver.c" />
-    <ClCompile Include="Triangle Test Cases.c" />
     <ClCompile Include="triangleSolver.c" />
   </ItemGroup>
   <ItemGroup>

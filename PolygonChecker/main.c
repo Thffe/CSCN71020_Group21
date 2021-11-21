@@ -15,15 +15,20 @@
 #define SUM_OF_ANGLES_IN_TRIANGLE 180
 #define PI 3.14159265359
 
+//Rectangle calculations block
 double* getRectPoints(double* points);
 double calculatePerimeter(double* points);
+double calculateDist(double x1, double y1, double x2, double y2);
+double calculateArea(double* rectanglePTS);
 
+//Triangle calculations block
 void getTriangleSides(double* triangleSides);
 double scanCheckSide(int i);
 double* calculateInsideAngles(double* sides);
 double radToDegree(double rad);
 void printAngles(double* angle);
 
+//MENU part 
 void printWelcome();
 char printShapeMenu();
 
@@ -65,6 +70,7 @@ int main() {
 				}
 
 				printf("Rectangle perimeter = %f\n", calculatePerimeter(rectanglePointsPtr));
+				printf("Rectangle area = %f\n", calculateArea(rectanglePointsPtr));
 				printf("%s\n", res);
 				rectanglePointsPtr = NULL;
 				free(rectanglePointsPtr);
@@ -96,6 +102,7 @@ double* getRectPoints(double* points) {
 	return points;
 }
 
+//This function calculates the perimeter of 
 double calculatePerimeter(double* points) {
 	double perimeter = 0;
 	/*
@@ -117,6 +124,7 @@ double calculatePerimeter(double* points) {
 	return perimeter;
 }
 
+//This function is needed to calculate the lenhts of the rectangle side by the points given.
 double calculateDist(double x1, double y1, double x2, double y2) {
 	double difX = x1 - x2;
 	double difY = y1 - y2;
@@ -124,12 +132,25 @@ double calculateDist(double x1, double y1, double x2, double y2) {
 	double pow2 = pow(difY, 2);
 	double sum = pow1 + pow2;
 	double result = sqrt(sum);
-	printf("Side length = %f\n", result);
 	return result;
+}
+
+//This function is needed to calculate the area of a rectangle by the formula S = a * b;
+double calculateArea(double* rectanglePTS) {
+	double side1 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 2), *(rectanglePTS + 3));
+	double side2 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double side3 = calculateDist(*(rectanglePTS + 2), *(rectanglePTS + 3), *(rectanglePTS + 4), *(rectanglePTS + 5));
+	double side4 = calculateDist(*(rectanglePTS + 4), *(rectanglePTS + 5), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double area = -1;
+	if (side1 != side2 || (side1 == side2 && side2 == side3 && side3 == side4 && side4 == side1)) {
+		area = side1 * side2;
+	}
+	return area;
 }
 
 //TRIANGLE PART:
 
+//This function takes user input of three double variables 
 void getTriangleSides(double* triangleSides) {
 	int i;
 	for (i = 0; i < NUM_OF_TRIANGLE_SIDES; i++) {
@@ -137,6 +158,7 @@ void getTriangleSides(double* triangleSides) {
 	}
 }
 
+//This function is needed to check user`s input of a side and ask for input again if the user fails to enter a correct value
 double scanCheckSide(int i) {
 	double side, temp; //temp is temporary variable
 	bool correctnessIndicator = false;
@@ -153,6 +175,7 @@ double scanCheckSide(int i) {
 	return side;
 }
 
+//This function is neeeded to calculate the inside angles of a triangle
 double* calculateInsideAngles(double* sides) {
 	double* resultPTR = (double*)calloc(NUM_OF_TRIANGLE_SIDES, sizeof(double));
 
@@ -164,13 +187,14 @@ double* calculateInsideAngles(double* sides) {
 	*(resultPTR + 2) = SUM_OF_ANGLES_IN_TRIANGLE - *(resultPTR + 0) - *(resultPTR + 1);
 	return resultPTR;
 }
-
+//This function transforms radians to degrees
 double radToDegree(double rad) {
 	double degree;
-	degree = (rad * 180) / PI;
+	degree = (rad * 180) / PI; //Here it uses the formula, which is used to count degrees out of radians. PI - pi number, equals to 3.14
 	return degree;
 }
 
+//This function is used to print angles of the triangle
 void printAngles(double* angle) {
 	int i;
 	printf("\n");
@@ -181,6 +205,7 @@ void printAngles(double* angle) {
 
 //MENU part
 
+//This function prints the invitation to the console
   void printWelcome() {
 	printf_s("\n");
 	printf_s(" **********************\n");
@@ -189,6 +214,7 @@ void printAngles(double* angle) {
 	printf_s(" **********************\n");
 }
 
+  //This function prints options for user to choose from and then returns the user`s choice
 char printShapeMenu() {
 	printf_s("1. Triangle\n");
 	printf_s("2. Rectangle\n");
