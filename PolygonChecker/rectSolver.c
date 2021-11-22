@@ -6,7 +6,6 @@
 #include "rectSolver.h"
 
 char* analyzeRect(double* points) {
-
 	double left1[2] = { *(points + 0), *(points + 1) };
 	double left2[2];
 
@@ -18,7 +17,6 @@ char* analyzeRect(double* points) {
 	//x3 = [4], y3 = [5]
 	//x4 = [6], y4 = [7]
 
-	//Finding the 2 left most points
 	if (*(points + 2) <= left1[0]) {
 		left1[0] = *(points + 2);
 		left1[1] = *(points + 3);
@@ -60,14 +58,13 @@ char* analyzeRect(double* points) {
 		left1[1] = *(points + 7);
 		l1in = 6;
 	}
-	else if (*(points + 6) < left2[0])
+	else if (*(points + 6) < left1[0])
 	{
 		left2[0] = *(points + 6);
 		left2[1] = *(points + 7);
 		l2in = 6;
 	}
 
-	//determining which of the 2 left points is above the other
 	double topleft[2];
 	double botleft[2];
 
@@ -92,28 +89,22 @@ char* analyzeRect(double* points) {
 
 	int r1in;
 	int i = 0;
-	int isq;
-	//Finding the right most points by using the index of the left points
-	//whatever wasn't a left point must be a right point
 	for (i = 0; i < 4; i++) {
-		isq = i * 2;
-		if (isq != l1in && isq != l2in) {
-			
+		if (i * 2 != l1in && i * 2 != l2in) {
+			int isq = i * 2;
 			right[0] = *(points + isq);
 			right[1] = *(points + isq + 1);
-			r1in = isq;
+			r1in = i * 2;
 		}
 	}
-	//Finding the last point using indexs of the left points and the already found right point
 	for (i = 0; i < 4; i++) {
-		isq = i * 2;
-		if (isq != l1in && isq != l2in && isq != r1in) {
+		if (i * 2 != l1in && i * 2 != l2in && i * 2 != r1in) {
+			int isq = i * 2;
 			right[2] = *(points + isq);
 			right[3] = *(points + isq + 1);
 		}
 	}
 
-	//determining which of the 2 right points is above the other
 	if (right[1] > right[3]) {
 		topright[0] = right[0];
 		topright[1] = right[1];
@@ -129,6 +120,9 @@ char* analyzeRect(double* points) {
 		botright[1] = right[1];
 	}
 
+	//printf("%f,%f\t\t%f,%f\n", topleft[0], topleft[1], topright[0], topright[1]);
+	//printf("%f,%f\t\t%f,%f\n", botleft[0], botleft[1], botright[0], botright[1]);
+
 	double side1 = calculateDist(topleft[0], topleft[1], topright[0], topright[1]);
 	double side2 = calculateDist(botleft[0], botleft[1], botright[0], botright[1]);
 	double side3 = calculateDist(topleft[0], topleft[1], botleft[0], botleft[1]);
@@ -137,9 +131,6 @@ char* analyzeRect(double* points) {
 	double slope1 = calculateSlope(topleft[0], topleft[1], topright[0], topright[1], false);
 	double slope2 = calculateSlope(botleft[0], botleft[1], botright[0], botright[1], false);
 
-	//vert is used to indicate if the line between two point is a vertical line
-	//this is done because the slope of a vertical line is undefined(due to dividing by zero)
-	//for vertical lines: slope = y / 0
 	bool vert = false;
 	if (topleft[0] == botleft[0]) {
 		vert = true;
@@ -157,9 +148,6 @@ char* analyzeRect(double* points) {
 	bool ang4 = ifRightAngles(slope2, slope4, vert);
 
 	if (side1 == side2 && side3 == side4 && ang1 && ang2 && ang3 && ang4) {
-
-		double area = calculateArea(side1, side3);
-		printf("Rectangle area = %f\n", area);
 		return "Points DO form a rectangle.";
 	}
 	else {
@@ -167,29 +155,70 @@ char* analyzeRect(double* points) {
 	}
 }
 
-//Calculate slope using formula:  Slope = (Difference in Y) / (Difference in X)
+//This function is needed to calculate the area of a rectangle by the formula S = a * b;
+double calculateArea(double* rectanglePTS) {
+	//Firstly function counts the length of each side.
+	double side1 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 2), *(rectanglePTS + 3));
+	double side2 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double side3 = calculateDist(*(rectanglePTS + 2), *(rectanglePTS + 3), *(rectanglePTS + 4), *(rectanglePTS + 5));
+	double side4 = calculateDist(*(rectanglePTS + 4), *(rectanglePTS + 5), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double area = -1; //here I set the value which will be returned if function fails to return the correct answer
+	if (side1 != side2 || (side1 == side2 && side2 == side3 && side3 == side4 && side4 == side1)) { //here I check if the shape is a rectangle or a squere
+		area = side1 * side2;
+	}
+	return area;
+}
+
+//This function calculates the perimeter of a rectangle
+double calculatePerimeter(double* points) {
+	double perimeter = 0;
+	/*
+	* for rect[]
+	x1 = [0], y1 = [1]
+	x2 = [2], y2 = [3]
+	x3 = [4], y3 = [5]
+	x4 = [6], y4 = [7]
+	*/
+								//	  x1			y1				x2			y2
+	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 2), *(points + 3));
+								//	  x1			y1		x4		y4
+	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 6), *(points + 7));
+								//	  x2			y2				x3			y3
+	perimeter += calculateDist(*(points + 2), *(points + 3), *(points + 4), *(points + 5));
+								//	  x3			 y3				x4			y4
+	perimeter += calculateDist(*(points + 4), *(points + 5), *(points + 6), *(points + 7));
+
+	return perimeter;
+}
+
+
+//This function is needed to calculate the lenhts of the rectangle side by the points given.
+double calculateDist(double x1, double y1, double x2, double y2) {
+	double difX = x1 - x2;
+	double difY = y1 - y2;
+	double pow1 = pow(difX, 2);
+	double pow2 = pow(difY, 2);
+	double sum = pow1 + pow2;
+	double result = sqrt(sum);
+	return result;
+}
+
 double calculateSlope(double x1, double y1, double x2, double y2, bool vert) {
 	if (!vert) {
 		return (y2 - y1) / (x2 - x1);
 	}
 	return 0;
 }
-//Check if two lines are perpendicular(90 degrees from each other)
+
 bool ifRightAngles(double s1, double s2, bool vert) {
+	// -1 * (1/s2) may produce rounding errors, I'm not sure
 	if (vert && s1 == 0) {
 		return true;
 	}
-	//for perpendicular lines: slope 1 == negative reciprocal of slope 2
 	if (s1 == -1 * (1 / s2)) {
 		return true;
 	}
 	else {
 		return false;
 	}
-}
-
-//This function is needed to calculate the area of a rectangle by the formula S = a * b;
-double calculateArea(double side1, double side2) {
-	double area = side1 * side2;
-	return area;
 }

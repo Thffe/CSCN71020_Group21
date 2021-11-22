@@ -5,22 +5,16 @@
 #include <string.h>
 
 #include "main.h"
-#include "triangleSolver.h"
-#include "rectSolver.h"
 
 #define STRAIGHT_ANGLE 90
 #define NUM_OF_RECTANGLE_SIDES 4
 
 //Rectangle calculations block
 double* getRectPoints(double* points);
-double calculatePerimeter(double* points);
-double calculateDist(double x1, double y1, double x2, double y2);
 
 //Triangle calculations block
 void getTriangleSides(double* triangleSides);
 double scanCheckSide(int i);
-double* calculateInsideAngles(double* sides);
-double radToDegree(double rad);
 void printAngles(double* angle);
 
 //MENU part 
@@ -59,8 +53,17 @@ int main() {
 				getRectPoints(rectanglePointsPtr);
 				char* res = (analyzeRect(rectanglePointsPtr));
 
-				printf("%s\n", res);
+				if (strcmp(res, "Points DO NOT form a rectangle.") == 0) {
+					printf("Shape perimeter = %f\n", calculatePerimeter(rectanglePointsPtr));
+					printf("%s\n", res);
+					rectanglePointsPtr = NULL;
+					free(rectanglePointsPtr);
+					break;
+				}
+
 				printf("Rectangle perimeter = %f\n", calculatePerimeter(rectanglePointsPtr));
+				printf("Rectangle area = %f\n", calculateArea(rectanglePointsPtr));
+				printf("%s\n", res);
 				rectanglePointsPtr = NULL;
 				free(rectanglePointsPtr);
 			    break;
@@ -91,38 +94,6 @@ double* getRectPoints(double* points) {
 	return points;
 }
 
-//This function calculates the perimeter of 
-double calculatePerimeter(double* points) {
-	double perimeter = 0;
-	/*
-	* for rect[]
-	x1 = [0], y1 = [1]
-	x2 = [2], y2 = [3]
-	x3 = [4], y3 = [5]
-	x4 = [6], y4 = [7]
-	*/
-							//	  x1			y1				x2			y2
-	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 2), *(points + 3));
-							//	  x1			y1		x4		y4
-	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 6), *(points + 7));
-							//	  x2			y2				x3			y3
-	perimeter += calculateDist(*(points + 2), *(points + 3), *(points + 4), *(points + 5));
-							//	  x3			 y3				x4			y4
-	perimeter += calculateDist(*(points + 4), *(points + 5), *(points + 6), *(points + 7));
-
-	return perimeter;
-}
-
-//This function is needed to calculate the lenhts of the rectangle side by the points given.
-double calculateDist(double x1, double y1, double x2, double y2) {
-	double difX = x1 - x2;
-	double difY = y1 - y2;
-	double pow1 = pow(difX, 2);
-	double pow2 = pow(difY, 2);
-	double sum = pow1 + pow2;
-	double result = sqrt(sum);
-	return result;
-}
 
 //TRIANGLE PART:
 
@@ -185,4 +156,3 @@ char printShapeMenu() {
 
 	return shapeChoice;
 }
-
