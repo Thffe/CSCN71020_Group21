@@ -60,7 +60,7 @@ namespace RectanlgeTests
 			Assert::IsTrue(ifRightAngles(1, -1, false));
 		}
 		TEST_METHOD(RectSolver_RightAngle2) {
-			Assert::IsTrue(ifRightAngles(3.0, -1.0/3.0, false));
+			Assert::IsTrue(ifRightAngles(3, -0.33, false));
 		}
 		TEST_METHOD(RectSolver_RightAngle3) {
 			Assert::IsTrue(ifRightAngles(0, -1, true));

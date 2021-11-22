@@ -15,6 +15,7 @@
 double* getRectPoints(double* points);
 double calculatePerimeter(double* points);
 double calculateDist(double x1, double y1, double x2, double y2);
+double calculateArea(double* rectanglePTS);
 
 //Triangle calculations block
 void getTriangleSides(double* triangleSides);
@@ -59,8 +60,14 @@ int main() {
 				getRectPoints(rectanglePointsPtr);
 				char* res = (analyzeRect(rectanglePointsPtr));
 
-				printf("%s\n", res);
+				if (strcmp(res, "Points DO NOT form a rectangle") == 0) {
+					printf("%s\n", res);
+					break;
+				}
+
 				printf("Rectangle perimeter = %f\n", calculatePerimeter(rectanglePointsPtr));
+				printf("Rectangle area = %f\n", calculateArea(rectanglePointsPtr));
+				printf("%s\n", res);
 				rectanglePointsPtr = NULL;
 				free(rectanglePointsPtr);
 			    break;
@@ -122,6 +129,19 @@ double calculateDist(double x1, double y1, double x2, double y2) {
 	double sum = pow1 + pow2;
 	double result = sqrt(sum);
 	return result;
+}
+
+//This function is needed to calculate the area of a rectangle by the formula S = a * b;
+double calculateArea(double* rectanglePTS) {
+	double side1 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 2), *(rectanglePTS + 3));
+	double side2 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double side3 = calculateDist(*(rectanglePTS + 2), *(rectanglePTS + 3), *(rectanglePTS + 4), *(rectanglePTS + 5));
+	double side4 = calculateDist(*(rectanglePTS + 4), *(rectanglePTS + 5), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double area = -1;
+	if (side1 != side2 || (side1 == side2 && side2 == side3 && side3 == side4 && side4 == side1)) {
+		area = side1 * side2;
+	}
+	return area;
 }
 
 //TRIANGLE PART:
