@@ -112,5 +112,36 @@ namespace RectanlgeTests
 			double dist = calculateDist(2, -6, -3, 5);
 			Assert::AreEqual(dist, sqrt(146));
 		}
+		TEST_METHOD(RectSolver_CalculateArea1) {
+			double a = 5;
+			double b = 6;
+			int area = a * b;
+			Assert::AreEqual(30, area);
+		}
+		TEST_METHOD(RectSolver_CalculateArea2) {
+			double a = 2;
+			double b = 11;
+			int area = a * b;
+			Assert::AreEqual(22, area);
+		}
+		TEST_METHOD(RectSolver_CalculateArea3) {
+			double a = 9;
+			double b = 4;
+			int area = a * b;
+			Assert::AreEqual(36, area);
+		}
+
+		TEST_METHOD(RectSolver_CalculateArea4) {
+			double a = 9;
+			double b = 4.3;
+			int area = a * b;
+			Assert::AreNotEqual(36, area);
+		}
+		TEST_METHOD(RectSolver_CalculateArea5) {
+			double a = 10;
+			double b = -4;
+			int area = a * b;
+			Assert::AreNotEqual(36, area);
+		}
 	};
 }
