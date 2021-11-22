@@ -75,7 +75,18 @@ namespace triangleSolverTests
 		
 			Assert::AreEqual(expected, res, tolerance);	
 		}
-		TEST_METHOD(T007_radToDegree_m1)
+
+		TEST_METHOD(T007_radToDegree_0)
+		{
+			//Assert::AreEqual compared expected with the actual result and told that 57.2958 is not equal to 57.2958
+			//So to compare double variables we need to add tolerance
+			double tolerance = 0.0001;
+			double expected = 0;
+			double res = radToDegree(0);
+
+			Assert::AreEqual(expected, res, tolerance);
+		}
+		TEST_METHOD(T008_radToDegree_m1)
 		{
 			//Assert::AreEqual compared expected with the actual result and told that -57.2958 is not equal to -57.2958
 			//So to compare double variables we need to add tolerance
@@ -85,9 +96,9 @@ namespace triangleSolverTests
 			
 			Assert::AreEqual(expected, res, tolerance);
 		}
-		
+
 		//Tests T008, T009, T010 check if at least one angle is counted correctly
-		TEST_METHOD(T008_calculateInsideAngles_3and4and5_angle2)
+		TEST_METHOD(T009_calculateInsideAngles_3and4and5_angle2)
 		{
 			double expected = 90;
 			double* sides = (double*)calloc(3, sizeof(double));
@@ -97,7 +108,7 @@ namespace triangleSolverTests
 			double* angles = calculateInsideAngles(sides);
 			Assert::AreEqual(expected, *(angles + 1));
 		}
-		TEST_METHOD(T009_calculateInsideAngles_4and4and4_angle3)
+		TEST_METHOD(T010_calculateInsideAngles_4and4and4_angle3)
 		{
 			double tolerance = 0.01;
 			double expected = 60;
@@ -108,7 +119,7 @@ namespace triangleSolverTests
 			double* angles = calculateInsideAngles(sides);
 			Assert::AreEqual(expected, *(angles + 2), tolerance);
 		}
-		TEST_METHOD(T010_calculateInsideAngles_4and4and5_angle1)
+		TEST_METHOD(T011_calculateInsideAngles_4and4and5_angle1)
 		{
 			double tolerance = 0.00001;
 			double expected = 51.317813;

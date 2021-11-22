@@ -109,29 +109,32 @@ namespace RectanlgeTests
 			Assert::AreEqual(dist, sqrt(146));
 		}
 		TEST_METHOD(RectSolver_CalculateArea1) {
-			double a = 5;
-			double b = 6;
-			int area = a * b;
-			Assert::AreEqual(30, area);
+			double expected = 4;
+			double* points = (double*)calloc(8, sizeof(double));
+			*(points + 0) = 1;
+			*(points + 1) = 1;
+			*(points + 2) = 1;
+			*(points + 3) = -1;
+			*(points + 4) = -1;
+			*(points + 5) = -1;
+			*(points + 6) = -1;
+			*(points + 7) = 1;
+			double area = calculateArea(points);
+			Assert::AreEqual(expected, area);
 		}
 		TEST_METHOD(RectSolver_CalculateArea2) {
-			double a = 2;
-			double b = 11;
-			int area = a * b;
-			Assert::AreEqual(22, area);
-		}
-		TEST_METHOD(RectSolver_CalculateArea3) {
-			double a = 9;
-			double b = 4;
-			int area = a * b;
-			Assert::AreEqual(36, area);
-		}
-
-		TEST_METHOD(RectSolver_CalculateArea4) {
-			double a = 9;
-			double b = 4.3;
-			int area = a * b;
-			Assert::AreNotEqual(36, area);
+			double expected = 16;
+			double* points = (double*)calloc(8, sizeof(double));
+			*(points + 0) = 2;
+			*(points + 1) = 2;
+			*(points + 2) = 2;
+			*(points + 3) = -2;
+			*(points + 4) = -2;
+			*(points + 5) = -2;
+			*(points + 6) = -2;
+			*(points + 7) = 2;
+			double area = calculateArea(points);
+			Assert::AreEqual(expected, area);
 		}
 		TEST_METHOD(RectSolver_CalculateArea5) {
 			double a = 10;
