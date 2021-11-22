@@ -96,10 +96,6 @@ namespace RectanlgeTests
 		TEST_METHOD(RectSolver_RightAngle3) {
 			Assert::IsTrue(ifRightAngles(0, -1, true));
 		}
-		TEST_METHOD(RectSolver_Area) {
-			double area = calculateArea(3.0, 3.0);
-			Assert::AreEqual(area, 9.0);
-		}
 		TEST_METHOD(RectSolver_Distance1) {
 			double dist = calculateDist(2,2 ,-2,2);
 			Assert::AreEqual(dist, 4.0);
