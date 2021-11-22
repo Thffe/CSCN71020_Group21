@@ -5,23 +5,16 @@
 #include <string.h>
 
 #include "main.h"
-#include "triangleSolver.h"
-#include "rectSolver.h"
 
 #define STRAIGHT_ANGLE 90
 #define NUM_OF_RECTANGLE_SIDES 4
 
 //Rectangle calculations block
 double* getRectPoints(double* points);
-double calculatePerimeter(double* points);
-double calculateDist(double x1, double y1, double x2, double y2);
-double calculateArea(double* rectanglePTS);
 
 //Triangle calculations block
 void getTriangleSides(double* triangleSides);
 double scanCheckSide(int i);
-double* calculateInsideAngles(double* sides);
-double radToDegree(double rad);
 void printAngles(double* angle);
 
 //MENU part 
@@ -60,8 +53,11 @@ int main() {
 				getRectPoints(rectanglePointsPtr);
 				char* res = (analyzeRect(rectanglePointsPtr));
 
-				if (strcmp(res, "Points DO NOT form a rectangle") == 0) {
+				if (strcmp(res, "Points DO NOT form a rectangle.") == 0) {
+					printf("Shape perimeter = %f\n", calculatePerimeter(rectanglePointsPtr));
 					printf("%s\n", res);
+					rectanglePointsPtr = NULL;
+					free(rectanglePointsPtr);
 					break;
 				}
 
@@ -98,51 +94,6 @@ double* getRectPoints(double* points) {
 	return points;
 }
 
-//This function calculates the perimeter of 
-double calculatePerimeter(double* points) {
-	double perimeter = 0;
-	/*
-	* for rect[]
-	x1 = [0], y1 = [1]
-	x2 = [2], y2 = [3]
-	x3 = [4], y3 = [5]
-	x4 = [6], y4 = [7]
-	*/
-							//	  x1			y1				x2			y2
-	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 2), *(points + 3));
-							//	  x1			y1		x4		y4
-	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 6), *(points + 7));
-							//	  x2			y2				x3			y3
-	perimeter += calculateDist(*(points + 2), *(points + 3), *(points + 4), *(points + 5));
-							//	  x3			 y3				x4			y4
-	perimeter += calculateDist(*(points + 4), *(points + 5), *(points + 6), *(points + 7));
-
-	return perimeter;
-}
-
-//This function is needed to calculate the lenhts of the rectangle side by the points given.
-double calculateDist(double x1, double y1, double x2, double y2) {
-	double difX = x1 - x2;
-	double difY = y1 - y2;
-	double pow1 = pow(difX, 2);
-	double pow2 = pow(difY, 2);
-	double sum = pow1 + pow2;
-	double result = sqrt(sum);
-	return result;
-}
-
-//This function is needed to calculate the area of a rectangle by the formula S = a * b;
-double calculateArea(double* rectanglePTS) {
-	double side1 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 2), *(rectanglePTS + 3));
-	double side2 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 6), *(rectanglePTS + 7));
-	double side3 = calculateDist(*(rectanglePTS + 2), *(rectanglePTS + 3), *(rectanglePTS + 4), *(rectanglePTS + 5));
-	double side4 = calculateDist(*(rectanglePTS + 4), *(rectanglePTS + 5), *(rectanglePTS + 6), *(rectanglePTS + 7));
-	double area = -1;
-	if (side1 != side2 || (side1 == side2 && side2 == side3 && side3 == side4 && side4 == side1)) {
-		area = side1 * side2;
-	}
-	return area;
-}
 
 //TRIANGLE PART:
 
@@ -205,4 +156,3 @@ char printShapeMenu() {
 
 	return shapeChoice;
 }
-

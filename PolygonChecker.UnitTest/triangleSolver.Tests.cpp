@@ -15,7 +15,7 @@ namespace triangleSolverTests
 		//Tests T001, T002, T003, T004, T005 test if function analyzeTriangle from triangleSolver.c do produce a correct result
 		TEST_METHOD(T001_analyzeTriangle_4and4and4)
 		{
-			char* expected = "Equilateral triangle";
+			char* expected = "Equilateral triangle";	
 			double* sides = (double*)calloc(3, sizeof(double));
 			*(sides + 0) = 4;
 			*(sides + 1) = 4;

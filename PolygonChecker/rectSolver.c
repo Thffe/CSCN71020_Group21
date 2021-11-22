@@ -6,7 +6,6 @@
 #include "rectSolver.h"
 
 char* analyzeRect(double* points) {
-
 	double left1[2] = { *(points + 0), *(points + 1) };
 	double left2[2];
 
@@ -154,26 +153,54 @@ char* analyzeRect(double* points) {
 	else {
 		return "Points DO NOT form a rectangle.";
 	}
-	/*
-	double x1 = *(points + 0);
-	double y1 = *(points + 1);
-	double x2 = *(points + 2);
-	double y2 = *(points + 3);
-	double x3 = *(points + 4);
-	double y3 = *(points + 5);
-	double x4 = *(points + 6);
-	double y4 = *(points + 7);
-	if ((x1 != x2 || y1 != y2) && (x2 != x3 || y2 != y3) && (x3 != x4 || y3 != y4) && (x4 != x1 || y4 != y1)) {
-		if ((((x3 - x2) * (x1 - x2) + (y3 - y2) * (y1 - y2)) == 0) && (((x3 - x4) * (x1 - x4) + (y3 - y4) * (y1 - y4) == 0))) {
-			return "Points FORM a rectangle";
-		}
-		else {
-			return "Points DO NOT form a rectangle";
-		}
+}
+
+//This function is needed to calculate the area of a rectangle by the formula S = a * b;
+double calculateArea(double* rectanglePTS) {
+	//Firstly function counts the length of each side.
+	double side1 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 2), *(rectanglePTS + 3));
+	double side2 = calculateDist(*(rectanglePTS + 0), *(rectanglePTS + 1), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double side3 = calculateDist(*(rectanglePTS + 2), *(rectanglePTS + 3), *(rectanglePTS + 4), *(rectanglePTS + 5));
+	double side4 = calculateDist(*(rectanglePTS + 4), *(rectanglePTS + 5), *(rectanglePTS + 6), *(rectanglePTS + 7));
+	double area = -1; //here I set the value which will be returned if function fails to return the correct answer
+	if (side1 != side2 || (side1 == side2 && side2 == side3 && side3 == side4 && side4 == side1)) { //here I check if the shape is a rectangle or a squere
+		area = side1 * side2;
 	}
-	else {
-		return "Points DO NOT form a rectangle";
-	}*/
+	return area;
+}
+
+//This function calculates the perimeter of a rectangle
+double calculatePerimeter(double* points) {
+	double perimeter = 0;
+	/*
+	* for rect[]
+	x1 = [0], y1 = [1]
+	x2 = [2], y2 = [3]
+	x3 = [4], y3 = [5]
+	x4 = [6], y4 = [7]
+	*/
+								//	  x1			y1				x2			y2
+	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 2), *(points + 3));
+								//	  x1			y1		x4		y4
+	perimeter += calculateDist(*(points + 0), *(points + 1), *(points + 6), *(points + 7));
+								//	  x2			y2				x3			y3
+	perimeter += calculateDist(*(points + 2), *(points + 3), *(points + 4), *(points + 5));
+								//	  x3			 y3				x4			y4
+	perimeter += calculateDist(*(points + 4), *(points + 5), *(points + 6), *(points + 7));
+
+	return perimeter;
+}
+
+
+//This function is needed to calculate the lenhts of the rectangle side by the points given.
+double calculateDist(double x1, double y1, double x2, double y2) {
+	double difX = x1 - x2;
+	double difY = y1 - y2;
+	double pow1 = pow(difX, 2);
+	double pow2 = pow(difY, 2);
+	double sum = pow1 + pow2;
+	double result = sqrt(sum);
+	return result;
 }
 
 double calculateSlope(double x1, double y1, double x2, double y2, bool vert) {
@@ -181,7 +208,6 @@ double calculateSlope(double x1, double y1, double x2, double y2, bool vert) {
 		return (y2 - y1) / (x2 - x1);
 	}
 	return 0;
-	
 }
 
 bool ifRightAngles(double s1, double s2, bool vert) {
