@@ -136,11 +136,5 @@ namespace RectanlgeTests
 			double area = calculateArea(points);
 			Assert::AreEqual(expected, area);
 		}
-		TEST_METHOD(RectSolver_CalculateArea5) {
-			double a = 10;
-			double b = -4;
-			int area = a * b;
-			Assert::AreNotEqual(36, area);
-		}
 	};
 }
